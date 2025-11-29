@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarWash Pro - Professional Carwash Management System</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1D4ED8;
+            --primary-light: #3B82F6;
+            --text-dark: #1F2937;
+            --text-gray: #6B7280;
+            --text-light: #9CA3AF;
+            --bg-light: #F9FAFB;
+            --bg-white: #FFFFFF;
+            --border-color: #E5E7EB;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: inline-block;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 16px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 120px;
+            background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-light) 100%);
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+        }
+
+        .hero h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero-subheadline {
+            font-size: 20px;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            margin-top: 60px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+        }
+
+        .dashboard-preview {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .stat-card h4 {
+            font-size: 12px;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .stat-card .value.blue {
+            color: var(--primary-color);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: var(--bg-white);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 60px;
+        }
+
+        .section-header h2 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: var(--text-gray);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: var(--bg-light);
+            padding: 32px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--primary-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+            background: var(--bg-light);
+        }
+
+        .benefit-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .benefit-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .benefit-row.reverse {
+            direction: rtl;
+        }
+
+        .benefit-row.reverse > * {
+            direction: ltr;
+        }
+
+        .benefit-content h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .benefit-content p {
+            font-size: 17px;
+            color: var(--text-gray);
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+
+        .benefit-list {
+            list-style: none;
+        }
+
+        .benefit-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: var(--text-dark);
+        }
+
+        .benefit-list li::before {
+            content: "✓";
+            width: 24px;
+            height: 24px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .benefit-image {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.2);
+        }
+
+        .benefit-image-inner {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 24px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .chart-bars {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+            height: 200px;
+            padding: 20px 0;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+
+        .chart-bar::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+
+        .cta-content {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 40px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-white:hover {
+            background: var(--bg-light);
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline-white:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand .logo {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .footer-brand .logo-icon {
+            background: var(--primary-color);
+        }
+
+        .footer-brand p {
+            color: var(--text-light);
+            font-size: 15px;
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-column h4 {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--text-light);
+            font-size: 15px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            transition: all 0.2s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .benefit-row {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .benefit-row.reverse {
+                direction: ltr;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-subheadline {
+                font-size: 18px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-preview {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header h2 {
+                font-size: 32px;
+            }
+
+            .benefit-content h3 {
+                font-size: 28px;
+            }
+
+            .cta-content h2 {
+                font-size: 32px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-buttons .btn-outline {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-container">
+            <a href="#" class="logo" aria-label="CarWash Pro Home">
+                <div class="logo-icon" aria-hidden="true">🚗</div>
+                CarWash Pro
+            </a>
+            <div class="nav-buttons">
+                <a href="#" class="btn btn-outline">Sign In</a>
+                <a href="#" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-badge" aria-hidden="true">🚀 #1 Carwash Management Platform</span>
+                <h1>Streamline Your <span>Carwash Business</span> Operations</h1>
+                <p class="hero-subheadline">
+                    The all-in-one platform to manage services, track finances, handle inventory, 
+                    and grow your carwash business with ease. Join hundreds of successful carwash operators.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary btn-large">Start Free Trial</a>
+                    <a href="#" class="btn btn-outline btn-large">Watch Demo</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="dashboard-preview">
+                    <div class="stat-card">
+                        <h4>Today's Revenue</h4>
+                        <div class="value blue">$2,450</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Cars Washed</h4>
+                        <div class="value">156</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Active Staff</h4>
+                        <div class="value">12</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Everything You Need to Succeed</h2>
+                <p>Powerful features designed specifically for carwash businesses to streamline operations and maximize profits.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🛠️</div>
+                    <h3>Service Management</h3>
+                    <p>Create and manage multiple service packages. Track service history, set pricing tiers, and offer customized wash options for every customer.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">👥</div>
+                    <h3>Washer & Money Management</h3>
+                    <p>Efficiently manage your team of washers, track individual performance, handle payroll, and monitor daily cash flow in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">🏢</div>
+                    <h3>Corporate Clients</h3>
+                    <p>Build lasting relationships with corporate accounts. Manage fleet contracts, offer volume discounts, and generate customized invoices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">📦</div>
+                    <h3>Product Inventory</h3>
+                    <p>Keep track of cleaning supplies, equipment, and consumables. Set reorder alerts, manage vendors, and optimize your inventory costs.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">📊</div>
+                    <h3>Financial Reports</h3>
+                    <p>Get comprehensive insights into your business performance with detailed financial reports, revenue analytics, and expense tracking.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" aria-hidden="true">⚡</div>
+                    <h3>Quick Operations</h3>
+                    <p>Speed up daily operations with intuitive interface, quick service logging, instant receipts, and seamless payment processing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="benefit-row">
+                <div class="benefit-content">
+                    <h3>Boost Your Revenue with Smart Insights</h3>
+                    <p>Make data-driven decisions with real-time analytics. Understand peak hours, popular services, and customer preferences to optimize your business strategy.</p>
+                    <ul class="benefit-list">
+                        <li>Real-time revenue tracking</li>
+                        <li>Service popularity analytics</li>
+                        <li>Customer behavior insights</li>
+                        <li>Predictive demand forecasting</li>
+                    </ul>
+                </div>
+                <div class="benefit-image">
+                    <div class="benefit-image-inner">
+                        <div class="chart-bars">
+                            <div class="chart-bar" style="height: 60%;" data-label="Mon"></div>
+                            <div class="chart-bar" style="height: 80%;" data-label="Tue"></div>
+                            <div class="chart-bar" style="height: 45%;" data-label="Wed"></div>
+                            <div class="chart-bar" style="height: 90%;" data-label="Thu"></div>
+                            <div class="chart-bar" style="height: 100%;" data-label="Fri"></div>
+                            <div class="chart-bar" style="height: 75%;" data-label="Sat"></div>
+                            <div class="chart-bar" style="height: 55%;" data-label="Sun"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="benefit-row reverse">
+                <div class="benefit-content">
+                    <h3>Simplify Team Management</h3>
+                    <p>Keep your team organized and motivated. Track individual performance, manage schedules, and ensure consistent service quality across all shifts.</p>
+                    <ul class="benefit-list">
+                        <li>Employee performance tracking</li>
+                        <li>Shift scheduling & management</li>
+                        <li>Commission & bonus calculations</li>
+                        <li>Training progress monitoring</li>
+                    </ul>
+                </div>
+                <div class="benefit-image">
+                    <div class="benefit-image-inner">
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--bg-light); border-radius: 8px;">
+                                <div style="width: 48px; height: 48px; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">JD</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--text-dark);">John Davis</div>
+                                    <div style="font-size: 14px; color: var(--text-gray);">45 cars today • $320 earned</div>
+                                </div>
+                                <div style="color: #10B981; font-weight: 600;">⭐ 4.9</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--bg-light); border-radius: 8px;">
+                                <div style="width: 48px; height: 48px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">SM</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--text-dark);">Sarah Miller</div>
+                                    <div style="font-size: 14px; color: var(--text-gray);">38 cars today • $275 earned</div>
+                                </div>
+                                <div style="color: #10B981; font-weight: 600;">⭐ 4.8</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--bg-light); border-radius: 8px;">
+                                <div style="width: 48px; height: 48px; background: #6366F1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">MJ</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; color: var(--text-dark);">Mike Johnson</div>
+                                    <div style="font-size: 14px; color: var(--text-gray);">41 cars today • $295 earned</div>
+                                </div>
+                                <div style="color: #10B981; font-weight: 600;">⭐ 4.7</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="benefit-row">
+                <div class="benefit-content">
+                    <h3>Never Run Out of Supplies</h3>
+                    <p>Stay on top of your inventory with automated tracking and smart alerts. Know exactly what you have, what you need, and when to reorder.</p>
+                    <ul class="benefit-list">
+                        <li>Automated stock tracking</li>
+                        <li>Low inventory alerts</li>
+                        <li>Vendor management</li>
+                        <li>Cost optimization reports</li>
+                    </ul>
+                </div>
+                <div class="benefit-image">
+                    <div class="benefit-image-inner">
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-light); border-radius: 8px;">
+                                <span style="font-weight: 500;">Car Shampoo</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 100px; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 75%; height: 100%; background: #10B981; border-radius: 4px;"></div>
+                                    </div>
+                                    <span style="font-size: 14px; color: var(--text-gray);">75%</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-light); border-radius: 8px;">
+                                <span style="font-weight: 500;">Tire Cleaner</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 100px; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 45%; height: 100%; background: #F59E0B; border-radius: 4px;"></div>
+                                    </div>
+                                    <span style="font-size: 14px; color: var(--text-gray);">45%</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #FEF2F2; border-radius: 8px; border: 1px solid #FECACA;">
+                                <span style="font-weight: 500; color: #DC2626;">Glass Cleaner</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 100px; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 15%; height: 100%; background: #DC2626; border-radius: 4px;"></div>
+                                    </div>
+                                    <span style="font-size: 14px; color: #DC2626;">15% ⚠️</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-light); border-radius: 8px;">
+                                <span style="font-weight: 500;">Microfiber Towels</span>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 100px; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: 90%; height: 100%; background: #10B981; border-radius: 4px;"></div>
+                                    </div>
+                                    <span style="font-size: 14px; color: var(--text-gray);">90%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Carwash Business?</h2>
+                <p>Join thousands of carwash owners who have already streamlined their operations and increased their revenue with CarWash Pro.</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-white btn-large">Start Your Free Trial</a>
+                    <a href="#" class="btn btn-outline-white btn-large">Schedule a Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" aria-label="CarWash Pro Home">
+                        <div class="logo-icon" aria-hidden="true">🚗</div>
+                        CarWash Pro
+                    </a>
+                    <p>The complete carwash management solution trusted by hundreds of businesses worldwide.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CarWash Pro. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+                    <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+                    <a href="#" class="social-link" aria-label="Facebook">f</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
